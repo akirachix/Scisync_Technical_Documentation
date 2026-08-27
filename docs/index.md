@@ -80,7 +80,6 @@ Each role has specific access controls and interfaces tailored to their workflow
 
 ## Quick Links
 
-- [Getting Started](/guide/overview) : Set up your development environment
 - [Architecture](/architecture/overview) : Understand the system design
 - [API Reference](/api/overview) : Explore the endpoints
 - [Deployment](/deployment/overview) : Production setup

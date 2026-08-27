@@ -435,7 +435,3 @@ The Auditerra interface is designed for readability and clarity, specifically op
 | **USSD**     | Africa's Talking scalability | Handles thousands of concurrent sessions |
 
 ---
-
-## Next Steps
-
-- [Backend API](/backend/overview) : Explore the backend
