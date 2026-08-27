@@ -6,7 +6,24 @@ export default defineConfig({
     "Technical Documentation - Soil Diagnostics & Restoration Platform",
   lang: "en-US",
 
+  base: "/Auditerra-Technical-Documentation-/",
+
+  ignoreDeadLinks: [
+    /^\/dev_guide\//,
+    /^\/api\/introduction/,
+    /^\/guide\/getting-started/,
+  ],
+
+  head: [["link", { rel: "stylesheet", href: "/custom.css" }]],
+
   themeConfig: {
+    logo: {
+      src: "/home.svg",
+      alt: "Auditerra Logo",
+      width: 108,
+      height: 148,
+    },
+
     nav: [
       { text: "Home", link: "/" },
       { text: "Overview", link: "/overview" },
@@ -18,19 +35,28 @@ export default defineConfig({
         text: "Documentation",
         items: [
           { text: "Overview", link: "/overview" },
-          { text: "Getting Started", link: "/guide/overview" },
-          { text: "Architecture and Style", link: "/architecture/overview" },
-          { text: "API", link: "/api/overview" },
+          { text: "Architecture", link: "/architecture/overview" },
+          { text: "Backend", link: "/api/overview" },
           { text: "Frontend Web", link: "/Frontend-Web/overview" },
           { text: "Frontend Mobile", link: "/frontend-mobile/overview" },
           { text: "Security", link: "/security/overview" },
-          { text: "AI", link: "/ai/overview" },
+          { text: "AI Module", link: "/ai/overview" },
           { text: "Deployment", link: "/deployment/overview" },
           { text: "Developer Guide", link: "/dev_guide/overview" },
         ],
       },
     ],
 
-    socialLinks: [{ icon: "github", link: "https://github.com" }],
+    socialLinks: [
+      {
+        icon: "github",
+        link: "https://github.com/najmahares/Auditerra-Technical-Documentation-",
+      },
+    ],
+
+    footer: {
+      message: "Built for Kenya's land restoration",
+      copyright: "Copyright © 2026 Auditerra Team",
+    },
   },
 });

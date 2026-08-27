@@ -1,6 +1,6 @@
-# Auditerra Platform - Comprehensive Security Documentation
+# Auditerra Platform
 
-## 1. Introduction and Security Posture
+## 1. Introduction and Security
 
 ### 1.1 Purpose
 
@@ -10,39 +10,49 @@ This document serves as the definitive technical and operational security refere
 
 The Auditerra platform adopts a **Defense-in-Depth** strategy, segmented into four distinct security zones. Data flows from the untrusted external environment, through perimeter defenses, into the trusted application zone, and finally to secure data storage.
 
-1.  **Untrusted / External Zone:** Feature phones (USSD/SMS), external services (Africa's Talking, SMS Leopard, AWS SES).
-2.  **Edge / Perimeter Zone:** Cloudflare (Firewall, WAF, DDoS), API Gateway.
-3.  **Trusted Application Zone:** Backends, core modules, USSD session handler, AI integration, webhook validator.
-4.  **Data Zone:** PostgreSQL (Neon), Object Storage, Google Secret Manager, Cache/Session Storage.
+![Preview of secure System Architecture](/public/secure.png)
+| Zone | Components | Security Controls |
+| ----------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Untrusted / External Zone** | Feature phones (USSD/SMS), external services (Africa's Talking, SMS Leopard, AWS SES) | TLS 1.3, rate limiting, input sanitization |
+| **Edge / Perimeter Zone** | Cloudflare (Firewall, WAF, DDoS), API Gateway | DDoS protection, WAF rules, geo-blocking, IP allowlisting |
+| **Trusted Application Zone** | Backends, core modules, USSD session handler, AI integration, webhook validator | JWT authentication, RBAC, input validation, HMAC verification |
+| **Data Zone** | PostgreSQL (Neon), Object Storage, Google Secret Manager, Cache/Session Storage | AES-256 encryption at rest, secret rotation, access controls |
 
-## Visual Diagrams
+### 1.3 Data Classification
 
-### Secure System Architecture Diagram
+Data is classified and handled based on sensitivity per the Kenya Data Protection Act 2019:
 
-> _Click below to view the end-to-end secure system architecture._
-
-[**View the Figma Architecture Diagram**](https://www.figma.com/design/MTtw9YDPNHSRWsU9wczr7S/SciSync_CyberSecurity_SAD?node-id=0-1&p=f&t=2s5JO3vc3FfJJ5yt-0https://www.figma.com/design/MTtw9YDPNHSRWsU9wczr7S/SciSync_CyberSecurity_SAD?node-id=0-1&p=f&t=2s5JO3vc3FfJJ5yt-0)
+| Class                 | Examples                                                      | Handling Rule                                                        |
+| --------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Highly Restricted** | Name, Phone, Email, GPS, Password Hashes, MFA OTP, Ticket IDs | AES-256 at rest, TLS 1.3 in transit, no AI prompts, 7-year retention |
+| **Internal Use**      | Ticket status, assignment logs, auth events, API metadata     | RBAC enforced, 30 days to 3-year retention                           |
+| **Agronomic / Lower** | Soil pH, NPK, crop type, anonymized symptoms                  | Identifiers stripped before leaving zone, 2-year retention           |
 
 ---
 
 ## 2. Network and Perimeter Security (Edge Zone)
 
-### 2.1 Cloudflare Firewall & WAF
+### 2.1 Cloudflare Firewall and WAF
 
-All traffic enters through Cloudflare, which acts as the gatekeeper.
+All traffic enters through Cloudflare, which acts as the gatekeeper. The Cloudflare configuration provides multiple layers of protection that work together to secure the application perimeter.
 
-- **DDoS Protection:** Automated mitigation against volumetric attacks.
-- **Web Application Firewall (WAF):** Rules configured to block SQL injection, Cross-Site Scripting (XSS), and common OWASP Top 10 vulnerabilities.
-- **Geo/IP Blocking:** Restricts traffic to authorized regions and allowlists trusted IP ranges.
-- **TLS Termination:** Handles SSL/TLS termination, enforcing **TLS 1.3** for all internal and external communications to prevent Man-in-the-Middle attacks.
+**DDoS Protection:** Cloudflare automatically detects and mitigates volumetric attacks, ensuring the platform remains available even during large-scale denial-of-service attempts. This includes protection against SYN floods, UDP amplification, and HTTP-layer attacks.
+
+**Web Application Firewall (WAF):** The WAF is configured with rules that block SQL injection attempts, Cross-Site Scripting (XSS) payloads, and other OWASP Top 10 vulnerabilities. These rules are continuously updated based on emerging threat intelligence.
+
+**Geo/IP Blocking:** Traffic is restricted to authorized regions (primarily Kenya and trusted partner locations) to reduce the attack surface. Suspicious IP addresses are automatically blocked based on reputation scores.
+
+**TLS Termination:** Cloudflare handles SSL/TLS termination, enforcing **TLS 1.3** for all internal and external communications to prevent Man-in-the-Middle attacks. This ensures that all data in transit is encrypted using the strongest available protocols.
 
 ### 2.2 API Gateway
 
-The API Gateway acts as the central hub for request routing and control.
+The API Gateway acts as the central hub for request routing and control. It enforces security policies before any request reaches the core backend.
 
-- **Request Limits:** Enforces maximum request size to prevent buffer overflow attacks.
-- **Rate Limiting:** Implements per-IP and per-route rate limits (e.g., maximum 100 requests/min to Gemini).
-- **Authentication Enforcement:** Validates `x-api-key` and Bearer tokens before any request reaches the core backend.
+**Request Limits:** Maximum request size is enforced to prevent buffer overflow attacks. Requests exceeding the limit are rejected at the gateway level.
+
+**Rate Limiting:** Per-IP and per-route rate limits are implemented. For example, the Gemini AI endpoint is limited to 100 requests per minute to prevent Denial of Wallet attacks. Public endpoints are limited to 100 requests per 60 seconds.
+
+**Authentication Enforcement:** The gateway validates `x-api-key` and Bearer tokens before any request reaches the core backend. Requests without valid credentials are rejected with a 401 Unauthorized response.
 
 ---
 
@@ -52,26 +62,96 @@ The API Gateway acts as the central hub for request routing and control.
 
 Auditerra employs distinct authentication strategies based on the user interface used.
 
-**Feature Phone Users (Farmers - USSD)**
+#### Feature Phone Users (Farmers - USSD)
 
-- **Session Logic:** Numeric inputs only with a strict 30-second session timeout.
-- **Normalization:** Phone numbers are normalized before processing.
-- **Data Minimization:** No sensitive information is displayed in USSD menus.
+**Session Logic:** USSD sessions enforce numeric inputs only, preventing injection attacks. Each session has a strict 30-second timeout to free up resources and prevent session hijacking. Phone numbers are normalized to E.164 format before processing to ensure consistency.
 
-**Smartphone Users (Experts & Supervisors - PWA)**
+**Data Minimization:** No sensitive information is displayed in USSD menus. The interface only shows basic status messages and instructions, never exposing personal data or internal system details.
 
-- **Credentials:** Email and Password combined with Multi-Factor Authentication (MFA) via SMS or Email.
-- **Password Storage:** User passwords are strictly hashed using **bcrypt** (never stored in plain text).
-- **Session Handling:** Users are automatically logged out after 5 failed attempts to prevent brute-force attacks.
-- **JWT Management:**
-  - **Algorithm:** Tokens are encrypted with **RS256** (asymmetric key pair) ensuring they cannot be tampered with.
-  - **Expiry:** Access tokens expire after 1 hour, minimizing risk if a device is lost. Refresh tokens are continuously rotated.
-  - **No Sensitive Data:** JWT payloads contain only role-based details, never personal sensitive data.
-  - **Least Privilege:** Object-level authorization ensures experts can only access their assigned tickets.
+**Code Example: USSD Session Handler (Backend)**
+
+```python
+def handle_ussd_session(session_id, phone_number, input_text):
+    # Validate session exists and is active
+    session = get_ussd_session(session_id)
+    if not session or session.is_expired():
+        return respond_with_timeout()
+
+    # Normalize phone number
+    normalized_phone = normalize_phone(phone_number)
+
+    # Sanitize input - only allow digits
+    sanitized_input = re.sub(r'[^0-9]', '', input_text)
+
+    # Process input based on current menu state
+    return process_menu(session, sanitized_input)
+```
+
+#### Smartphone Users (Experts and Supervisors - PWA)
+
+**Credentials:** Users authenticate using Email and Password combined with Multi-Factor Authentication (MFA) via SMS or Email. MFA is mandatory for all expert and supervisor accounts.
+
+**Password Storage:** User passwords are strictly hashed using **bcrypt** with a work factor of 12, ensuring they are never stored in plain text. This protects user credentials even if the database is compromised.
+
+**Code Example: Password Hashing (Backend)**
+
+```python
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+```
+
+**Session Handling:** Users are automatically logged out after 5 failed attempts to prevent brute-force attacks. This implements a progressive delay that increases with each failed attempt.
+
+**JWT Management:**
+
+- **Algorithm:** Tokens are signed with **RS256** (asymmetric key pair), ensuring they cannot be tampered with. The private key is stored in Google Secret Manager.
+- **Expiry:** Access tokens expire after 1 hour, minimizing risk if a device is lost. Refresh tokens are continuously rotated and expire after 7 days.
+- **No Sensitive Data:** JWT payloads contain only role-based details (user ID, role), never personal sensitive data.
+- **Least Privilege:** Object-level authorization ensures experts can only access their assigned tickets. Supervisors can access all resources.
+
+**Code Example: JWT Generation and Verification (Backend)**
+
+```python
+from jose import jwt
+import time
+
+def create_access_token(user_id: str, role: str) -> str:
+    payload = {
+        "sub": user_id,
+        "role": role,
+        "exp": int(time.time()) + 3600  # 1 hour
+    }
+    return jwt.encode(payload, private_key, algorithm="RS256")
+
+def verify_token(token: str) -> dict:
+    try:
+        return jwt.decode(token, public_key, algorithms=["RS256"])
+    except jwt.ExpiredSignatureError:
+        raise UnauthorizedException("Token expired")
+    except jwt.JWTError:
+        raise UnauthorizedException("Invalid token")
+```
 
 ### 3.2 Input Validation and Sanitization
 
 Every entry point (USSD, API, Webhooks) enforces strict validation. The mobile application implements file integrity checks before upload.
+
+**API Input Validation:** All API endpoints use Pydantic schemas for request validation. This ensures that incoming data matches the expected structure and data types before any processing occurs. Invalid requests are rejected with a 422 Unprocessable Entity response.
+
+**File Uploads (Soil Photos):**
+
+- Max 3MB size limit
+- Magic byte validation to verify file is a genuine image
+- OCR scanning for malware/viruses
+- Metadata stripping to prevent phishing or hash leaks
+- Executable files, scripts, and archives are rejected
 
 **Code Example: Magic Byte Validation for Image Uploads (Mobile)**
 
@@ -88,51 +168,124 @@ bool _verifyMagicBytes(Uint8List bytes) {
 }
 ```
 
-- **File Uploads (Soil Photos):** Max 3MB size limit, OCR scanning for malware/viruses, and metadata stripping to prevent phishing or hash leaks.
-- **Rejection:** Executable files, scripts, and archives are rejected at the API Gateway.
+**Code Example: API Input Validation (Backend)**
+
+```python
+from pydantic import BaseModel, EmailStr, Field
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str = Field(..., min_length=8, max_length=100)
+
+class ReportIssueRequest(BaseModel):
+    issue_category: str = Field(..., pattern="^(soil|water|crop|erosion)$")
+    description: str = Field(..., max_length=500)
+```
 
 ### 3.3 Artificial Intelligence (Gemini) Security
 
 To prevent data leakage and prompt injection attacks:
 
-- **Data Minimization:** **All farmer identity data is stripped** before AI prompt construction. Only anonymized soil parameters, observations, and zone IDs are transmitted.
-- **Prompt Injection Defense:** AI outputs are constrained to a strict JSON schema. Non-conforming outputs are rejected.
-- **Rate Limiting:** Hard limit of 100 requests per minute to prevent Denial of Wallet attacks.
-- **Audit:** Input hashes, output hashes, and supervisor decisions are logged for 3 years to trace liability.
+**Data Minimization:** All farmer identity data is stripped before AI prompt construction. Only anonymized soil parameters, observations, and zone IDs are transmitted to the AI service. This ensures that Personally Identifiable Information never leaves the trusted zone.
+
+**Prompt Injection Defense:** AI outputs are constrained to a strict JSON schema. Non-conforming outputs are rejected and logged for manual review. This prevents the AI from generating harmful or unexpected content.
+
+**Rate Limiting:** Hard limit of 100 requests per minute to prevent Denial of Wallet attacks. Excessive usage triggers alerts to the operations team.
+
+**Audit:** Input hashes, output hashes, and supervisor decisions are logged for 3 years to trace liability and enable forensic analysis if needed.
+
+**Code Example: Anonymized AI Prompt Construction (Backend)**
+
+```python
+def build_ai_prompt(diagnostic_data: dict) -> dict:
+    # Remove all farmer identity data
+    anonymized = {
+        "soil_ph": diagnostic_data["soil_ph"],
+        "nitrogen_ppm": diagnostic_data["nitrogen_ppm"],
+        "phosphorous_ppm": diagnostic_data["phosphorous_ppm"],
+        "potassium_ppm": diagnostic_data["potassium_ppm"],
+        "county": diagnostic_data["county"],  # Aggregated, not PII
+        "zone_id": diagnostic_data["zone_id"],  # Non-identifying
+        "issue_category": diagnostic_data["issue_category"]
+    }
+    return anonymized
+```
 
 ---
 
 ## 4. Data Security (Data Zone)
 
-### 4.1 Data Classification
+### 4.1 Database and Secrets
 
-Data is classified and handled based on sensitivity per the Kenya DPA:
+**PostgreSQL (Neon):** The database is encrypted at rest using **AES-256**. Daily automated backups are performed with point-in-time recovery capability. This ensures data can be restored in case of corruption or disaster.
 
-| Class                 | Examples                                                      | Handling Rule                                                        |
-| :-------------------- | :------------------------------------------------------------ | :------------------------------------------------------------------- |
-| **Highly Restricted** | Name, Phone, Email, GPS, Password Hashes, MFA OTP, Ticket IDs | AES-256 at rest, TLS 1.3 in transit, no AI prompts, 7-year retention |
-| **Internal Use**      | Ticket status, assignment logs, auth events, API metadata     | RBAC enforced, 30 days to 3-year retention                           |
-| **Agronomic / Lower** | Soil pH, NPK, crop type, anonymized symptoms                  | Identifiers stripped before leaving zone, 2-year retention           |
+**Google Secret Manager:** All API keys, `.env` variables, and private signing keys are stored in Google Secret Manager. Credentials are injected at runtime, never hardcoded in source code. This prevents credential leakage through source code repositories.
 
-### 4.2 Database & Secrets
+**Secret Rotation:** API keys are rotated every 90 days. JWT signing keys are rotated annually. The rotation process is automated to ensure no downtime.
 
-- **PostgreSQL (Neon):** Encrypted at rest using **AES-256**. Daily automated backups with point-in-time recovery.
-- **Google Secret Manager:** All API keys, `.env` variables, and private signing keys are stored here.
-  - **Runtime Injection:** Credentials are injected at runtime, never hardcoded in source code.
-  - **Rotation:** API keys rotated every 90 days; JWT signing keys annually.
-- **Object Storage (Photos):** Private buckets with strict lifecycle rules (30 days) and access via short-lived signed URLs.
+**Object Storage (Photos):** Private buckets store uploaded images with strict lifecycle rules (30 days retention). Access is via short-lived signed URLs that expire after 5 minutes, preventing unauthorized access to stored images.
 
-### 4.3 Offline Cache Security
+**Code Example: Secret Injection (Backend)**
 
-The PWA uses a Service Worker to sync data for up to 10 days in low-connectivity areas. **Crucially:** Highly Restricted data is never cached locally; only operational data is buffered to prevent unauthorized access if a field device is stolen.
+```python
+import os
+from google.cloud import secretmanager
+
+def get_secret(secret_name: str) -> str:
+    client = secretmanager.SecretManagerServiceClient()
+    project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+    name = f"projects/{project_id}/secrets/{secret_name}/versions/latest"
+    response = client.access_secret_version(request={"name": name})
+    return response.payload.data.decode("UTF-8")
+```
+
+### 4.2 Offline Cache Security
+
+The PWA uses a Service Worker to sync data for up to 10 days in low-connectivity areas. **Crucially:** Highly Restricted data is never cached locally. The Service Worker only buffers operational data (tickets, diagnostic forms) to prevent unauthorized access if a field device is stolen.
+
+**Cached Data Types:**
+
+- Tickets: Up to 10 days of assignments
+- Diagnostic forms: Complete forms awaiting sync
+- Location data: GPS coordinates and farm boundaries
+- Photos: Compressed field images
+
+**Security Controls:**
+
+- JWT tokens expire after 1 hour
+- Cache is cleared on logout
+- Data encrypted at rest in IndexedDB
+- No Personally Identifiable Information stored locally
+
+**Code Example: Offline Cache Security (PWA)**
+
+```typescript
+// Only cache operational data, never PII
+const CACHE_DATA_TYPES = {
+  tickets: true,
+  locations: true,
+  diagnostics: true,
+  user_profile: false, // Never cache PII
+};
+
+async function cacheData(data: any) {
+  // Remove any PII before caching
+  const sanitized = removePII(data);
+  await indexedDB.save(sanitized);
+}
+```
 
 ---
 
 ## 5. Webhook and External Integration Security
 
-### 5.1 Webhook Validation (Africa's Talking & SMS Leopard)
+### 5.1 Webhook Validation
 
-External callbacks are cryptographically verified using HMAC-SHA256. The backend uses constant-time comparison to prevent timing attacks.
+External callbacks (from Africa's Talking and SMS Leopard) are cryptographically verified using HMAC-SHA256. The backend uses constant-time comparison to prevent timing attacks.
+
+**Payload Limit:** Webhook payloads are strictly limited to less than 100KB. Larger payloads are rejected to prevent buffer overflow attacks.
+
+**IP Allowlisting:** Requests claiming to be from vendors must originate from allowlisted IPs or are dropped at the firewall. This prevents spoofing attacks.
 
 **Code Example: HMAC-SHA256 Webhook Validation (Backend)**
 
@@ -184,18 +337,64 @@ class WebhookValidator {
 }
 ```
 
-- **Payload Limit:** Webhook payloads are strictly limited to less than 100KB.
-- **IP Allowlisting:** Requests claiming to be from vendors must originate from allowlisted IPs or are dropped at the firewall.
+**Code Example: Webhook Endpoint (Backend)**
+
+```python
+from fastapi import FastAPI, Request, HTTPException
+
+app = FastAPI()
+
+@app.post("/webhooks/africastalking")
+async def handle_africastalking_webhook(request: Request):
+    body = await request.body()
+    signature = request.headers.get("X-Signature")
+
+    # Validate webhook authenticity
+    if not validate_webhook(
+        secret=os.getenv("AFRICASTALKING_WEBHOOK_SECRET"),
+        body=body.decode(),
+        signature=signature
+    ):
+        raise HTTPException(status_code=403, detail="Invalid signature")
+
+    # Process webhook
+    data = json.loads(body)
+    return process_webhook(data)
+```
 
 ### 5.2 Vendor Security Requirements (Outbound)
 
-- **Transport:** TLS 1.3 is mandatory for all outbound calls to Africa's Talking, SMS Leopard, and AWS SES.
-- **Content Restriction:** SMS bodies are limited to 160 characters. No passwords or GPS coordinates are ever sent via SMS, except for time-limited OTPs/Handshake codes.
-- **SMS Security Handshake:**
-  - Generated using `crypto.randomInt` (6-digit code).
-  - Stored **bcrypt-hashed** in the database.
-  - Expires in 24 hours and is single-use.
-  - Rate limits: Max 10 SMS per farmer/day; 100 per expert/day.
+**Transport:** TLS 1.3 is mandatory for all outbound calls to Africa's Talking, SMS Leopard, and AWS SES. Connections failing to negotiate TLS 1.3 are terminated.
+
+**Content Restriction:** SMS bodies are limited to 160 characters. No passwords or GPS coordinates are ever sent via SMS, except for time-limited OTPs/Handshake codes. This prevents sensitive data leakage through SMS.
+
+**SMS Security Handshake:**
+
+- Generated using `crypto.randomInt` (4-digit code)
+- Stored **bcrypt-hashed** in the database
+- Expires in 24 hours and is single-use
+- Rate limits: Max 10 SMS per farmer/day; 100 per expert/day
+
+**Code Example: SMS Handshake Generation (Backend)**
+
+```python
+import secrets
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def generate_handshake_code() -> str:
+    # Generate secure 4-digit code
+    return f"{secrets.randbelow(10000):04d}"
+
+def hash_handshake_code(code: str) -> str:
+    # Hash for storage
+    return pwd_context.hash(code)
+
+def verify_handshake_code(code: str, hashed_code: str) -> bool:
+    # Verify against hash
+    return pwd_context.verify(code, hashed_code)
+```
 
 ---
 
@@ -203,9 +402,13 @@ class WebhookValidator {
 
 Since field experts operate off-premises using personal devices, the following controls apply:
 
-- **PWA Architecture:** Uses 1-hour JWT expiry to reduce the window of misuse if a device is lost.
-- **No Local PII:** No Highly Restricted identity data is cached locally on the PWA. The Service Worker only buffers operational data for synchronization.
-- **Screen Lock:** Development laptops and field devices must be password-protected and screen-locked when unattended.
+**PWA Architecture:** Uses 1-hour JWT expiry to reduce the window of misuse if a device is lost. This limits the exposure window to a maximum of 60 minutes.
+
+**No Local PII:** No Highly Restricted identity data is cached locally on the PWA. The Service Worker only buffers operational data for synchronization. This prevents data exposure if a device is stolen.
+
+**Screen Lock:** Development laptops and field devices must be password-protected and screen-locked when unattended. This is enforced through organizational policy and regular compliance checks.
+
+**Device Reporting:** Lost or stolen devices must be reported immediately. The operations team can revoke tokens for the affected user to prevent unauthorized access.
 
 ---
 
@@ -213,7 +416,18 @@ Since field experts operate off-premises using personal devices, the following c
 
 ### 7.1 Audit Logging
 
-Comprehensive logging is implemented to ensure accountability and traceability. The mobile and backend services standardize logging:
+Comprehensive logging is implemented to ensure accountability and traceability. All logs are stored in PostgreSQL and protected against modification.
+
+**Log Categories and Retention:**
+
+| Log Type             | Retention | Purpose                                         |
+| -------------------- | --------- | ----------------------------------------------- |
+| Auth and Access Logs | 1 year    | Track authentication events and access patterns |
+| Data Change Logs     | 7 years   | Legal evidence of historical data changes       |
+| AI Audit Logs        | 3 years   | Trace AI decision liability                     |
+| File Operation Logs  | 2 years   | Track file uploads and access                   |
+| API Request Logs     | 30 days   | Performance and troubleshooting                 |
+| Error Logs           | 1 year    | Debugging and quality assurance                 |
 
 **Code Example: Enforcing HTTPS and API Key Header Injection (Mobile API Service)**
 
@@ -232,22 +446,38 @@ if (token != null) options.headers['Authorization'] = 'Bearer $token';
 if (_apiKey.isNotEmpty) options.headers['x-api-key'] = _apiKey;
 ```
 
-- **Auth & Access Logs:** Stored for 1 year.
-- **Data Change Logs:** Stored for 7 years (provides legal evidence of historical data changes).
-- **AI Audit Logs:** Stored for 3 years.
-- **File Operation Logs:** Stored for 2 years.
-- **API Request Logs:** Stored for 30 days.
-- **Error Logs:** Stored for 1 year.
+**Code Example: Audit Logging (Backend)**
 
-_All logs are stored in PostgreSQL and protected against modification._
+```python
+def log_audit_event(actor_id: str, event_type: str, resource_type: str, resource_id: str, details: dict):
+    audit_log = AuditLog(
+        actor_id=actor_id,
+        event_type=event_type,
+        resource_type=resource_type,
+        resource_id=resource_id,
+        details=details,
+        timestamp=datetime.utcnow()
+    )
+    db.add(audit_log)
+    db.commit()
+```
 
 ### 7.2 Incident Response Procedure
 
-1. **Detection:** Alerts sent to the operations channel upon unusual API traffic, webhook validation failures, or failed auth attempts.
-2. **Triage:** The Security Lead categorizes incidents (P1 to P4) based on severity (P1 = total outage/breach).
-3. **Containment:** Revocation of API keys, isolation of systems, or blocking of vendor IPs immediately.
-4. **Notification:** The DPO notifies the ODPC within **72 hours** and affected data subjects if the risk is high.
-5. **Post-Incident Review:** A root cause analysis is performed within 14 days, and the Risk Register is updated.
+**1. Detection:** Alerts are sent to the operations channel upon unusual API traffic, webhook validation failures, or failed auth attempts. Automated monitoring systems continuously scan for anomalies.
+
+**2. Triage:** The Security Lead categorizes incidents (P1 to P4) based on severity:
+
+- **P1:** Total outage or data breach
+- **P2:** Partial outage or major vulnerability
+- **P3:** Minor issue or potential vulnerability
+- **P4:** Informational or non-urgent
+
+**3. Containment:** API keys are revoked, systems are isolated, or vendor IPs are blocked immediately to prevent further damage.
+
+**4. Notification:** The Data Protection Officer notifies the Office of the Data Protection Commissioner within **72 hours** and affected data subjects if the risk is high.
+
+**5. Post-Incident Review:** A root cause analysis is performed within 14 days, and the Risk Register is updated with lessons learned.
 
 ---
 
@@ -257,18 +487,28 @@ _All logs are stored in PostgreSQL and protected against modification._
 
 Vendors are tiered based on risk and criticality:
 
-- **Critical (Africa's Talking, PostgreSQL, Cloudflare):** Full onboarding checklist, DPA, annual reassessment.
-- **Standard (SMS Leopard, AWS SES):** Pre-onboarding checklist, bi-annual review.
-- **Low Risk (Google Cloud Gemini):** Confirmation of no model training, sub-processor list.
+| Tier         | Vendors                                  | Oversight                                             |
+| ------------ | ---------------------------------------- | ----------------------------------------------------- |
+| **Critical** | Africa's Talking, PostgreSQL, Cloudflare | Full onboarding checklist, DPA, annual reassessment   |
+| **Standard** | SMS Leopard, AWS SES                     | Pre-onboarding checklist, bi-annual review            |
+| **Low Risk** | Google Cloud Gemini                      | Confirmation of no model training, sub-processor list |
 
 ### 8.2 Monthly Monitoring
 
-- **Cost & Volume:** Daily SMS/email spend monitored to detect toll fraud or anomalies.
-- **Vendor Status:** Continuous review of vendor status pages.
-- **DPA Updates:** Quarterly verification that terms have not changed.
+**Cost and Volume:** Daily SMS/email spend is monitored to detect toll fraud or anomalies. Unusual spikes trigger alerts for investigation.
+
+**Vendor Status:** Continuous review of vendor status pages for outages or security incidents.
+
+**DPA Updates:** Quarterly verification that terms have not changed. Any changes are reviewed by the DPO.
 
 ---
 
 ## 9. Conclusion
 
-TAuditerra ensures the confidentiality, integrity, and availability of its user data while remaining fully compliant with the Kenya Data Protection Act 2019.
+Auditerra ensures the confidentiality, integrity, and availability of its user data while remaining fully compliant with the Kenya Data Protection Act 2019. The defense-in-depth approach, combined with robust authentication, encryption, and monitoring, provides comprehensive protection against both external and internal threats.
+
+---
+
+## 10. Next Steps
+
+- [Backend API](/ai/overview) — Explore the endpoints
