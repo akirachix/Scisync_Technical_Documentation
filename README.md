@@ -4,7 +4,7 @@
 
 Auditerra is a digital platform that connects smallholder farmers with agricultural experts to diagnose soil issues and deliver actionable restoration plans, even in areas with limited internet connectivity.
 
----
+
 
 ## The Problem
 
@@ -28,7 +28,7 @@ Auditerra replaces unreliable satellite guesses with verified, human-field data 
 | **Verify** | Expert performs on-site security handshake | 4-digit code + GPS logging |
 | **Prescribe** | AI generates tailored prescription via SMS | Gemini + RAG processing |
 
----
+
 
 ## Key Differentiators
 
@@ -38,8 +38,6 @@ Auditerra replaces unreliable satellite guesses with verified, human-field data 
 | **Verifiable Impact** | 60-day audit loop. Immutable field data. Proof for global climate funders. |
 | **Human-Centric** | Multi-factor expert matching. Language compatibility. Local community trust. |
 | **Scalable Architecture** | Cloud-native, serverless-ready. PostgreSQL with PostGIS. AI-powered diagnostics. |
-
----
 
 ## Who Uses Auditerra?
 
@@ -58,7 +56,7 @@ Auditerra replaces unreliable satellite guesses with verified, human-field data 
 - Monitor progress via the Supervisor Dashboard
 - Export verifiable impact reports
 
----
+
 
 ## Technical Stack
 
@@ -75,7 +73,7 @@ Auditerra replaces unreliable satellite guesses with verified, human-field data 
 | **Auth** | JWT | Role-based access control |
 | **Hosting** | Backend: Heroku, Frontend: Vercel | Production deployment |
 
----
+
 
 ## Key Metrics
 
@@ -92,7 +90,7 @@ Auditerra replaces unreliable satellite guesses with verified, human-field data 
 | 60-Day Audit Completion | ≥ 80% |
 | Farmer Repeat-Report Rate | ≤ 5% |
 
----
+
 
 ## Getting Started
 
@@ -125,13 +123,14 @@ Open http://localhost:5173
 npm run docs:build
 ```
 
----
 
 ## Documentation
 
 Full technical documentation is available at:
 
 **Live:** https://auditerra-technical-documentation.vercel.app/overview.html
+
+
 
 | Section | Description |
 |---------|-------------|
@@ -146,18 +145,18 @@ Full technical documentation is available at:
 | [Deployment](https://auditerra-technical-documentation.vercel.app/deployment/overview) | Heroku and Vercel setup |
 | [Developer Guide](https://auditerra-technical-documentation.vercel.app/dev_guide/overview) | Contributing and code standards |
 
----
+
 
 ## License
 
 Copyright © 2026 Auditerra Team
 
----
+
 
 ## Built For
 
 Kenya's land restoration and the global climate action community.
 
----
+
 
 *Built for Kenya's farmers and the future of sustainable agriculture*
