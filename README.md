@@ -2,7 +2,7 @@
 
 **Soil Diagnostics & Restoration Platform for Kenya's Smallholder Farmers**
 
-Auditerra is a digital platform that connects smallholder farmers with agricultural experts to diagnose soil issues and deliver actionable restoration plans—even in areas with limited internet connectivity.
+Auditerra is a digital platform that connects smallholder farmers with agricultural experts to diagnose soil issues and deliver actionable restoration plans, even in areas with limited internet connectivity.
 
 ---
 
@@ -131,7 +131,7 @@ npm run docs:build
 
 Full technical documentation is available at:
 
-**Live:** https://auditerra-technical-documentation.vercel.app/
+**Live:** https://auditerra-technical-documentation.vercel.app/overview.html
 
 | Section | Description |
 |---------|-------------|
