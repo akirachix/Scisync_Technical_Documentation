@@ -5,7 +5,7 @@ export default defineConfig({
   description: "Technical Documentation - Soil Diagnostics & Restoration Platform",
   lang: "en-US",
   
-  // IMPORTANT: This must match your repository name exactly
+  // This MUST match your repository name
   base: "/Auditerra-Technical-Documentation-/",
 
   ignoreDeadLinks: true,
