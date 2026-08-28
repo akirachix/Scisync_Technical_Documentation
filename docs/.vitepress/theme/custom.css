@@ -12,6 +12,7 @@
   --auditerra-code-bg: #eeeeee;
   --auditerra-radius: 7px;
   --auditerra-brown: #5b3d26;
+  --auditerra-card-bg: #ffffff;
 }
 
 html.dark {
@@ -27,6 +28,7 @@ html.dark {
   --auditerra-table-row: #191a1a;
   --auditerra-code-bg: #1a1a1a;
   --auditerra-brown: #c4a484;
+  --auditerra-card-bg: #1e1e1e;
 }
 
 .vp-doc {
@@ -185,7 +187,7 @@ html.dark {
 }
 
 .VPHomeHero .tagline {
-  color: #5b3d26 !important;
+  color: var(--auditerra-brown) !important;
 }
 
 .VPFeature .box {
@@ -193,7 +195,7 @@ html.dark {
   min-height: 180px !important;
   border-radius: 12px !important;
   border: 1px solid var(--auditerra-border) !important;
-  background: white !important;
+  background: var(--auditerra-card-bg) !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
   transition: box-shadow 0.3s ease !important;
 }
@@ -227,25 +229,24 @@ html.dark {
 }
 
 .VPButton.brand {
-  background-color: #4c8a42 !important;
-  border-color: #4c8a42 !important;
+  background-color: var(--auditerra-green) !important;
+  border-color: var(--auditerra-green) !important;
   color: white !important;
 }
 
 .VPButton.brand:hover {
-  background-color: #3a7a33 !important;
-  border-color: #3a7a33 !important;
+  opacity: 0.9;
 }
 
 .VPButton.alt {
-  border-color: #5b3d26 !important;
-  color: #5b3d26 !important;
+  border-color: var(--auditerra-brown) !important;
+  color: var(--auditerra-brown) !important;
   background: transparent !important;
 }
 
 .VPButton.alt:hover {
-  background-color: #5b3d26 !important;
-  color: white !important;
+  background-color: var(--auditerra-brown) !important;
+  color: var(--auditerra-card-bg) !important;
 }
 
 @media (max-width: 640px) {
