@@ -36,4 +36,3 @@ features:
 | [Security](/security/overview)               | Authentication, authorization, and data protection         |
 | [AI Module](/ai/overview)                    | Gemini integration and RAG processing pipeline             |
 | [Deployment](/deployment/overview)           | Production environment setup and CI/CD workflow            |
-| [Developer Guide](/dev_guide/overview)       | Code standards and contribution workflow                   |

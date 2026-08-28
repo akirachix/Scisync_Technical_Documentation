@@ -47,3 +47,4 @@ temp/
 # Package files (optional, keep or remove as needed)
 # package-lock.json
 # yarn.lock
+docs/.vitepress/cache/
