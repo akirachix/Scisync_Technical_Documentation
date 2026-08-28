@@ -1,33 +1,49 @@
-
+# Dependencies
 node_modules/
 .pnp/
 .pnp.js
 
-
+# Environment files
 .env
 .env.local
 .env.*.local
 
-
+# Build outputs
 dist/
 build/
 .vitepress/dist/
+.vitepress/cache/
+.next/
+out/
 
-
+# Logs
 logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-
+# OS files
 .DS_Store
 Thumbs.db
 
-
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
 
-
+# Temporary files
 tmp/
 temp/
 .cache/
+
+# Vercel
+.vercel/
+
+# GitHub Pages
+.nojekyll
+
+# Package files (optional, keep or remove as needed)
+# package-lock.json
+# yarn.lock

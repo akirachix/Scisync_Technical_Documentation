@@ -3,7 +3,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Auditerra Docs",
   description:
-    "Technical Documentation : Soil Diagnostics & Restoration Platform",
+    "Technical Documentation - Soil Diagnostics & Restoration Platform",
   lang: "en-US",
   ignoreDeadLinks: [
     /http:\/\/localhost/,
@@ -23,13 +23,15 @@ export default defineConfig({
     logo: {
       src: "/logo.svg",
       alt: "Auditerra Logo",
-      width: 88,
-      height: 148,
+      // width: 208,
+      // height: 268,
+    },
+    search: {
+      provider: "local",
     },
     nav: [
       { text: "Home", link: "/" },
-      { text: "Overview", link: "/overview" },
-      { text: "Architecture", link: "/architecture/overview" },
+      { text: "Documentation", link: "/overview" },
     ],
     sidebar: [
       {
@@ -37,11 +39,11 @@ export default defineConfig({
         items: [
           { text: "Overview", link: "/overview" },
           { text: "Architecture", link: "/architecture/overview" },
-          { text: "API", link: "/api/overview" },
+          { text: "Backend", link: "/backend/overview" },
           { text: "Frontend Web", link: "/Frontend-Web/overview" },
           { text: "Frontend Mobile", link: "/frontend-mobile/overview" },
           { text: "Security", link: "/security/overview" },
-          { text: "AI ", link: "/ai/overview" },
+          { text: "AI Module", link: "/ai/overview" },
           { text: "Deployment", link: "/deployment/overview" },
           { text: "Developer Guide", link: "/dev_guide/overview" },
         ],

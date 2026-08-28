@@ -464,6 +464,26 @@ The Auditerra interface is designed for readability and clarity, specifically op
 
 ---
 
+### API Security
+
+| Control                      | Implementation           | Purpose                      |
+| ---------------------------- | ------------------------ | ---------------------------- |
+| **Rate Limiting**            | IP and user-based limits | Prevent abuse                |
+| **CORS**                     | Strict origin validation | Prevent cross-origin attacks |
+| **Input Validation**         | Pydantic schemas         | Prevent injection attacks    |
+| **XSS Protection**           | Output sanitization      | Prevent script injection     |
+| **SQL Injection Protection** | SQLAlchemy ORM           | Parameterized queries        |
+
+### AI Security
+
+| Control                         | Implementation                             | Purpose                               |
+| ------------------------------- | ------------------------------------------ | ------------------------------------- |
+| **Data Anonymization**          | Farmer identity stripped before AI prompts | PII never leaves trusted zone         |
+| **Output Validation**           | Strict JSON schema enforcement             | Prevent harmful or unexpected content |
+| **Rate Limiting**               | 100 requests per minute                    | Prevent Denial of Wallet attacks      |
+| **Audit Trail**                 | Input/output hashes logged for 3 years     | Tamper-evident accountability         |
+| **Prompt Injection Prevention** | Structured prompts with constraint setting | Reject malformed responses            |
+
 ## Deployment Architecture
 
 ### Backend (Heroku)

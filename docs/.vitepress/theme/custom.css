@@ -32,17 +32,17 @@ html.dark {
 }
 
 .vp-doc {
-  color: var(--auditerra-text-1);
+  color: var(--auditerra-text-1) !important;
 }
 
 .vp-doc p,
 .vp-doc li {
-  color: var(--auditerra-text-1);
+  color: var(--auditerra-text-1) !important;
 }
 
 .vp-doc h1 {
   color: var(--auditerra-green) !important;
-  font-weight: 700;
+  font-weight: 700 !important;
   border-bottom: none !important;
   margin-top: 1.2em;
   padding-bottom: 0;
@@ -50,7 +50,7 @@ html.dark {
 
 .vp-doc h2 {
   color: var(--auditerra-brown) !important;
-  font-weight: 650;
+  font-weight: 650 !important;
   border-bottom: 1px solid var(--auditerra-border) !important;
   padding-bottom: 0.35em;
   margin-top: 2em;
@@ -58,7 +58,7 @@ html.dark {
 
 .vp-doc h3 {
   color: var(--auditerra-brown) !important;
-  font-weight: 600;
+  font-weight: 600 !important;
   margin-top: 1.7em;
 }
 
@@ -66,7 +66,7 @@ html.dark {
 .vp-doc h5,
 .vp-doc h6 {
   color: var(--auditerra-brown) !important;
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 
 .vp-doc table {
@@ -78,14 +78,14 @@ html.dark {
   border-radius: var(--auditerra-radius) !important;
   overflow: hidden;
   margin: 1.5em 0;
-  background: var(--auditerra-table-row);
+  background: var(--auditerra-table-row) !important;
 }
 
 .vp-doc table th {
   background: var(--auditerra-table-header) !important;
   color: var(--auditerra-text-1) !important;
-  font-weight: 600;
-  text-align: left;
+  font-weight: 600 !important;
+  text-align: left !important;
   padding: 14px 20px !important;
   border: none !important;
   border-bottom: 1px solid var(--auditerra-border) !important;
@@ -96,7 +96,7 @@ html.dark {
   padding: 14px 20px !important;
   border: none !important;
   border-bottom: 1px solid var(--auditerra-border) !important;
-  vertical-align: top;
+  vertical-align: top !important;
 }
 
 .vp-doc table tr:last-child td {
@@ -119,9 +119,9 @@ html.dark {
 
 .vp-doc div[class*="language-"] {
   background: var(--auditerra-code-bg) !important;
-  border-radius: var(--auditerra-radius);
+  border-radius: var(--auditerra-radius) !important;
   margin: 1.2em 0;
-  border: 1px solid var(--auditerra-border);
+  border: 1px solid var(--auditerra-border) !important;
 }
 
 .vp-doc div[class*="language-"] code {
@@ -141,7 +141,7 @@ html.dark {
 }
 
 .vp-doc a:hover {
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 .vp-doc blockquote {
@@ -159,15 +159,138 @@ html.dark {
 
 .VPNavBar .logo img {
   image-rendering: -webkit-optimize-contrast;
-  width: 108px;
-  height: 148px;
-  object-fit: contain;
+  width: 188px !important;
+  height: 68px !important;
+  object-fit: contain !important;
+  filter: brightness(0) saturate(100%) invert(47%) sepia(63%) saturate(437%)
+    hue-rotate(75deg) brightness(92%) contrast(90%);
+}
+
+.VPNavBar {
+  background-color: var(--auditerra-card-bg) !important;
+  border-bottom: 1px solid var(--auditerra-border) !important;
+}
+
+.VPNavBar::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--auditerra-green) !important;
+  opacity: 0.4;
+}
+
+.VPNavBar .VPNavBarTitle .title,
+.VPNavBar .VPNavBarTitle .logo .text {
+  color: var(--auditerra-green) !important;
+}
+
+.VPNavBar .VPNavBarMenuLink {
+  color: var(--auditerra-text-1) !important;
+}
+
+.VPNavBar .VPNavBarMenuLink:hover {
+  color: var(--auditerra-green) !important;
+}
+
+.VPNavBar .VPNavBarMenuLink.is-active {
+  color: var(--auditerra-green) !important;
+  border-bottom-color: var(--auditerra-green) !important;
+}
+
+.VPNavBar .VPNavBarSocialLinks .VPLink {
+  color: var(--auditerra-text-2) !important;
+}
+
+.VPNavBar .VPNavBarSocialLinks .VPLink:hover {
+  color: var(--auditerra-green) !important;
+}
+
+.VPNavBar .VPNavBarAppearance .VPSwitch {
+  --vp-switch-bg-color: var(--auditerra-border) !important;
+}
+
+.VPNavBar .VPNavBarSearch {
+  flex: 1 !important;
+  max-width: 350px !important;
+  min-width: 180px !important;
+  margin: 0 20px !important;
+}
+
+.VPNavBar .VPNavBarSearch input {
+  width: 100% !important;
+  padding: 8px 16px !important;
+  border-radius: 6px !important;
+  border: 1px solid var(--auditerra-border) !important;
+  background: var(--auditerra-card-bg) !important;
+  color: var(--auditerra-text-1) !important;
+}
+
+.VPNavBar .VPNavBarSearch input::placeholder {
+  color: var(--auditerra-text-3) !important;
+}
+
+.VPNavBar .VPNavBarSearch input:focus {
+  border-color: var(--auditerra-green) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(76, 138, 66, 0.15) !important;
+}
+
+.VPNavBar .VPNavBarSearch .search-icon {
+  color: var(--auditerra-text-3) !important;
+}
+
+.VPNavBar .VPNavBarMenu {
+  margin-left: auto !important;
+}
+
+.VPNavBar .VPNavBarSocialLinks {
+  margin-left: 16px !important;
+}
+
+.VPNavBar .VPNavBarAppearance {
+  margin-left: 8px !important;
+}
+
+.VPNavBar .VPNavBarAppearance .VPSwitch {
+  margin-left: 0 !important;
+}
+
+@media (max-width: 960px) {
+  .VPNavBar .VPNavBarSearch {
+    max-width: 200px !important;
+    min-width: 120px !important;
+    margin: 0 12px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .VPNavBar .VPNavBarSearch {
+    max-width: 140px !important;
+    min-width: 80px !important;
+    margin: 0 8px !important;
+  }
+}
+
+.VPNavBar .VPNavBarMenuLink:hover,
+.VPNavBar .VPNavBarMenuLink.is-active,
+.VPNavBar .VPNavBarSocialLinks .VPLink:hover,
+.VPNavBar .VPNavBarSocialLinks .VPLink.is-active,
+.VPSidebar .item .link:hover,
+.VPSidebar .item .link.is-active,
+.VPNavBar .VPNavBarSearch .search-icon:hover,
+.VPButton.alt:hover,
+.VPButton.brand:hover,
+.VPDoc .vp-doc a:hover {
+  color: var(--auditerra-green) !important;
 }
 
 .VPHomeHero .actions {
-  display: flex;
+  display: flex !important;
   gap: 20px !important;
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .VPHomeHero .actions .VPButton {
@@ -177,6 +300,36 @@ html.dark {
   font-weight: 600 !important;
   border-radius: 8px !important;
   transition: all 0.3s ease !important;
+}
+
+.VPHomeHero .actions .VPButton:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(76, 138, 66, 0.3) !important;
+}
+
+.VPButton.brand {
+  background-color: var(--auditerra-green) !important;
+  border-color: var(--auditerra-green) !important;
+  color: #ffffff !important;
+}
+
+.VPButton.brand:hover {
+  background-color: var(--auditerra-green) !important;
+  border-color: var(--auditerra-green) !important;
+  color: #ffffff !important;
+  opacity: 0.85 !important;
+}
+
+.VPButton.alt {
+  border-color: var(--auditerra-brown) !important;
+  color: var(--auditerra-brown) !important;
+  background: transparent !important;
+}
+
+.VPButton.alt:hover {
+  background-color: var(--auditerra-brown) !important;
+  color: #ffffff !important;
+  opacity: 0.85 !important;
 }
 
 .VPHomeHero .name {
@@ -202,6 +355,7 @@ html.dark {
 
 .VPFeature .box:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  border-color: var(--auditerra-green) !important;
 }
 
 .VPFeature .icon {
@@ -226,27 +380,6 @@ html.dark {
   color: var(--auditerra-text-2) !important;
   font-size: 15px !important;
   line-height: 1.6 !important;
-}
-
-.VPButton.brand {
-  background-color: var(--auditerra-green) !important;
-  border-color: var(--auditerra-green) !important;
-  color: white !important;
-}
-
-.VPButton.brand:hover {
-  opacity: 0.9;
-}
-
-.VPButton.alt {
-  border-color: var(--auditerra-brown) !important;
-  color: var(--auditerra-brown) !important;
-  background: transparent !important;
-}
-
-.VPButton.alt:hover {
-  background-color: var(--auditerra-brown) !important;
-  color: var(--auditerra-card-bg) !important;
 }
 
 @media (max-width: 640px) {
