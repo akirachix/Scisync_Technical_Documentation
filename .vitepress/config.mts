@@ -2,8 +2,7 @@ import { defineConfig } from "vitepress";
 
 export default defineConfig({
   title: "Auditerra Docs",
-  description:
-    "Technical Documentation - Soil Diagnostics & Restoration Platform",
+  description: "Technical Documentation - Soil Diagnostics & Restoration Platform",
   lang: "en-US",
   ignoreDeadLinks: [
     /http:\/\/localhost/,
@@ -17,7 +16,7 @@ export default defineConfig({
     /\/deployment\/overview/,
     /\/guide\/overview/,
     /\/architecture\/overview/,
-    /\/api\/overview/,
+    /\/api\/overview/
   ],
   themeConfig: {
     nav: [
