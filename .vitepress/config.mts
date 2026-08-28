@@ -4,13 +4,14 @@ export default defineConfig({
   title: "Auditerra Docs",
   description: "Technical Documentation - Soil Diagnostics & Restoration Platform",
   lang: "en-US",
-  
-  // This MUST match your repository name
-  base: "/Auditerra-Technical-Documentation-/",
+
+  base: "/",
 
   ignoreDeadLinks: true,
 
-  head: [["link", { rel: "stylesheet", href: "/custom.css" }]],
+  head: [
+    ["link", { rel: "stylesheet", href: "/custom.css" }]
+  ],
 
   themeConfig: {
     logo: {
@@ -46,7 +47,7 @@ export default defineConfig({
     socialLinks: [
       {
         icon: "github",
-        link: "https://github.com/najmahares/Auditerra-Technical-Documentation-",
+        link: "https://github.com/najmahares/Auditerra-Technical-Documentation-1",
       },
     ],
 

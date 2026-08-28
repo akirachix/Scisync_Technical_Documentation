@@ -14,13 +14,14 @@ The platform transforms fragmented field observations into actionable restoratio
 
 Sub-Saharan Africa faces a severe ecological crisis. Current monitoring relies on satellite data that cannot verify subsurface soil health or localized realities. This creates a ground-truth gap that prevents effective restoration and blocks climate funding.
 
-| Indicator | Scale |
-|-----------|-------|
-| Arable land actively degraded | 65% |
+| Indicator                     | Scale               |
+| ----------------------------- | ------------------- |
+| Arable land actively degraded | 65%                 |
 | Productive land lost annually | 12 million hectares |
-| Fertile soil lost yearly | 75 billion tons |
+| Fertile soil lost yearly      | 75 billion tons     |
 
 Satellite data cannot measure:
+
 - Subsurface soil health (pH, nitrogen, phosphorus, potassium)
 - Localized socio-economic conditions
 - Actual on-the-ground restoration progress
@@ -44,6 +45,7 @@ All actions in the system are tracked and auditable. The 60-day audit loop enfor
 ### Role-Based Access
 
 The system serves three distinct user personas with different needs and permissions:
+
 - **Farmers** report issues via USSD
 - **Experts** collect diagnostic data and receive assignments
 - **Supervisors** monitor progress and manage operations
@@ -54,10 +56,8 @@ Each role has specific access controls and interfaces tailored to their workflow
 
 ## Quick Links
 
-- [Architecture](/architecture/overview) — System design and components
-- [Backend API](/api/overview) — Explore the endpoints
-- [Deployment](/deployment/overview) — Production setup
+- [Architecture](/architecture/overview) : System design and components
+- [Backend API](/api/overview) : Explore the endpoints
+- [Deployment](/deployment/overview): Production setup
 
 ---
-
-*Built for Kenya's land restoration*

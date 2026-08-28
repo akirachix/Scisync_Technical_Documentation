@@ -236,3 +236,7 @@ The Field Expert Mobile Interface uses a Service Worker to cache operational dat
 ## 6. Conclusion
 
 Auditerra's deployment strategy optimizes for performance, scalability, and reliability across its distinct user groups. **Heroku** provides a secure, managed containerized environment for the FastAPI backend and database; **Vercel** provides globally distributed static hosting for both the Supervisor PWA and the Field Expert Mobile Interface; and **Cloudflare** ensures a secure edge layer.
+
+## 12. Next Steps
+
+-[Developer Guide](/dev_guide/overview) : See our guide designed especially for developers

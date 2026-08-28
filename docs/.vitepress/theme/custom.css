@@ -84,14 +84,14 @@ html.dark {
   color: var(--auditerra-text-1) !important;
   font-weight: 600;
   text-align: left;
-  padding: 11px 15px !important;
+  padding: 14px 20px !important;
   border: none !important;
   border-bottom: 1px solid var(--auditerra-border) !important;
 }
 
 .vp-doc table td {
   color: var(--auditerra-text-1) !important;
-  padding: 10px 15px !important;
+  padding: 14px 20px !important;
   border: none !important;
   border-bottom: 1px solid var(--auditerra-border) !important;
   vertical-align: top;
@@ -160,4 +160,105 @@ html.dark {
   width: 108px;
   height: 148px;
   object-fit: contain;
+}
+
+.VPHomeHero .actions {
+  display: flex;
+  gap: 20px !important;
+  justify-content: center;
+}
+
+.VPHomeHero .actions .VPButton {
+  min-width: 200px !important;
+  padding: 14px 48px !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.VPHomeHero .name {
+  color: var(--auditerra-green) !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  font-weight: 700 !important;
+}
+
+.VPHomeHero .tagline {
+  color: #5b3d26 !important;
+}
+
+.VPFeature .box {
+  padding: 28px !important;
+  min-height: 180px !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--auditerra-border) !important;
+  background: white !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  transition: box-shadow 0.3s ease !important;
+}
+
+.VPFeature .box:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.VPFeature .icon {
+  background-color: var(--auditerra-green-soft) !important;
+  color: var(--auditerra-green) !important;
+  border-radius: 50% !important;
+  width: 48px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 16px !important;
+}
+
+.VPFeature .title {
+  font-weight: 600 !important;
+  color: var(--auditerra-text-1) !important;
+  font-size: 18px !important;
+}
+
+.VPFeature .details {
+  color: var(--auditerra-text-2) !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+}
+
+.VPButton.brand {
+  background-color: #4c8a42 !important;
+  border-color: #4c8a42 !important;
+  color: white !important;
+}
+
+.VPButton.brand:hover {
+  background-color: #3a7a33 !important;
+  border-color: #3a7a33 !important;
+}
+
+.VPButton.alt {
+  border-color: #5b3d26 !important;
+  color: #5b3d26 !important;
+  background: transparent !important;
+}
+
+.VPButton.alt:hover {
+  background-color: #5b3d26 !important;
+  color: white !important;
+}
+
+@media (max-width: 640px) {
+  .VPHomeHero .actions {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .VPHomeHero .actions .VPButton {
+    min-width: 180px !important;
+    padding: 12px 32px !important;
+    font-size: 16px !important;
+    width: 100% !important;
+    max-width: 280px !important;
+  }
 }

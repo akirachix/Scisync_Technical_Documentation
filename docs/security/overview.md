@@ -511,4 +511,4 @@ Auditerra ensures the confidentiality, integrity, and availability of its user d
 
 ## 10. Next Steps
 
-- [Backend API](/ai/overview) — Explore the endpoints
+- [AI](/ai/overview) : Explore how we intergrate AI in our system

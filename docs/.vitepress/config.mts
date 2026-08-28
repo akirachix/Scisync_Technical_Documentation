@@ -6,8 +6,6 @@ export default defineConfig({
     "Technical Documentation - Soil Diagnostics & Restoration Platform",
   lang: "en-US",
 
-  base: "/Auditerra-Technical-Documentation-/",
-
   ignoreDeadLinks: [
     /^\/dev_guide\//,
     /^\/api\/introduction/,

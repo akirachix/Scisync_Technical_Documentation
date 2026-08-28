@@ -77,6 +77,10 @@ node --version
 npm --version
 ```
 
+## View our dashboard
+
+> [See our deployed dashboard](https://auditerra-34jr92d78-najmahares-projects.vercel.app/login)
+
 ### Install Node.js on Windows
 
 Download and run the installer from [nodejs.org](https://nodejs.org/).
