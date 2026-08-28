@@ -132,7 +132,3 @@ Copyright © 2026 Auditerra
 ---
 
 _Built for Kenya's land restoration and the future of sustainable agriculture_
-
-```
-
-```

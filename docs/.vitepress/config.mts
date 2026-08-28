@@ -23,7 +23,7 @@ export default defineConfig({
     logo: {
       src: "/logo.svg",
       alt: "Auditerra Logo",
-      width: 108,
+      width: 88,
       height: 148,
     },
     nav: [

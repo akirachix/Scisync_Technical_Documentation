@@ -178,7 +178,9 @@ html.dark {
 }
 
 .VPHomeHero .name {
-  color: #4c8a42 !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  color: var(--auditerra-green) !important;
   font-weight: 700 !important;
 }
 
