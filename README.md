@@ -90,7 +90,7 @@ Throughout this documentation project, we achieved the following:
 
 The documentation is available at:
 
-**Live:** 
+**Live:**
 
 ## Getting Started
 
