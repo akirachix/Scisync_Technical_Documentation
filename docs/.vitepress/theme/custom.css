@@ -20,12 +20,12 @@ html.dark {
   --auditerra-text-2: #b8b8b8;
   --auditerra-text-3: #8f8f8f;
   --auditerra-green: #7fbd78;
-  --auditerra-green-soft: #243523;
+  --auditerra-green-soft: #1a2e1a;
   --auditerra-code-highlight-bg: #1c321b;
   --auditerra-code-highlight-text: #a2e09a;
-  --auditerra-border: #303030;
-  --auditerra-table-header: #232524;
-  --auditerra-table-row: #191a1a;
+  --auditerra-border: #3a3a3a;
+  --auditerra-table-header: #2a2a2a;
+  --auditerra-table-row: #1e1e1e;
   --auditerra-code-bg: #1a1a1a;
   --auditerra-brown: #c4a484;
   --auditerra-card-bg: #1e1e1e;
@@ -44,8 +44,8 @@ html.dark {
   color: var(--auditerra-green) !important;
   font-weight: 700 !important;
   border-bottom: none !important;
-  margin-top: 1.2em;
-  padding-bottom: 0;
+  margin-top: 0.5em !important;
+  padding-top: 0 !important;
 }
 
 .vp-doc h2 {
@@ -53,13 +53,13 @@ html.dark {
   font-weight: 650 !important;
   border-bottom: 1px solid var(--auditerra-border) !important;
   padding-bottom: 0.35em;
-  margin-top: 2em;
+  margin-top: 1.5em;
 }
 
 .vp-doc h3 {
   color: var(--auditerra-brown) !important;
   font-weight: 600 !important;
-  margin-top: 1.7em;
+  margin-top: 1.2em;
 }
 
 .vp-doc h4,
@@ -67,6 +67,18 @@ html.dark {
 .vp-doc h6 {
   color: var(--auditerra-brown) !important;
   font-weight: 600 !important;
+}
+
+.vp-doc .content-container {
+  padding-top: 0 !important;
+}
+
+.vp-doc .container {
+  margin-top: 0 !important;
+}
+
+.vp-doc .page {
+  padding-top: 0 !important;
 }
 
 .vp-doc table {
@@ -157,8 +169,20 @@ html.dark {
   border-radius: 0 var(--auditerra-radius) var(--auditerra-radius) 0;
 }
 
+.vp-doc .next-link,
+.vp-doc .prev-link {
+  color: var(--auditerra-green) !important;
+}
+
+.vp-doc .next-link:hover,
+.vp-doc .prev-link:hover {
+  color: var(--auditerra-green) !important;
+  opacity: 0.7 !important;
+}
+
 .VPNavBar .logo img {
   image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   width: 188px !important;
   height: 68px !important;
   object-fit: contain !important;
@@ -287,6 +311,16 @@ html.dark {
   color: var(--auditerra-green) !important;
 }
 
+.VPHomeHero {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.VPHomeHero .container {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
 .VPHomeHero .actions {
   display: flex !important;
   gap: 20px !important;
@@ -395,4 +429,35 @@ html.dark {
     width: 100% !important;
     max-width: 280px !important;
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  .VPFeature .box {
+    background: var(--auditerra-card-bg) !important;
+  }
+}
+
+.VPSidebar {
+  background-color: var(--auditerra-card-bg) !important;
+}
+
+.VPSidebar .item .link.is-active {
+  color: var(--auditerra-green) !important;
+}
+
+.VPSidebar .group .title {
+  color: var(--auditerra-brown) !important;
+}
+
+.VPFooter {
+  border-top: 1px solid var(--auditerra-border) !important;
+  background-color: var(--auditerra-card-bg) !important;
+}
+
+.VPFooter .message {
+  color: var(--auditerra-text-2) !important;
+}
+
+.VPFooter .copyright {
+  color: var(--auditerra-text-3) !important;
 }

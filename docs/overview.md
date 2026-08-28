@@ -191,4 +191,3 @@ The platform is designed to meet specific performance targets that align with bo
 - [Security](/security/overview): Authentication and authorization
 - [AI Module](/ai/overview): Gemini integration and RAG
 - [Deployment](/deployment/overview): Heroku and Vercel setup
-- [Developer Guide](/dev_guide/overview): Contributing and code standards
