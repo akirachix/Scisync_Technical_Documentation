@@ -1,14 +1,262 @@
 :root {
-  --vp-content-max-width: 960px;
+  --auditerra-text-1: #222222;
+  --auditerra-text-2: #555555;
+  --auditerra-text-3: #777777;
+  --auditerra-green: #4c8a42;
+  --auditerra-green-soft: #e8f0e6;
+  --auditerra-code-highlight-bg: #d0e1cc;
+  --auditerra-code-highlight-text: #2b5523;
+  --auditerra-border: #e2e2e2;
+  --auditerra-table-header: #f6f7f6;
+  --auditerra-table-row: #ffffff;
+  --auditerra-code-bg: #eeeeee;
+  --auditerra-radius: 7px;
+  --auditerra-brown: #5b3d26;
+}
+
+html.dark {
+  --auditerra-text-1: #e6e6e6;
+  --auditerra-text-2: #b8b8b8;
+  --auditerra-text-3: #8f8f8f;
+  --auditerra-green: #7fbd78;
+  --auditerra-green-soft: #243523;
+  --auditerra-code-highlight-bg: #1c321b;
+  --auditerra-code-highlight-text: #a2e09a;
+  --auditerra-border: #303030;
+  --auditerra-table-header: #232524;
+  --auditerra-table-row: #191a1a;
+  --auditerra-code-bg: #1a1a1a;
+  --auditerra-brown: #c4a484;
+}
+
+.vp-doc {
+  color: var(--auditerra-text-1);
+}
+
+.vp-doc p,
+.vp-doc li {
+  color: var(--auditerra-text-1);
+}
+
+.vp-doc h1 {
+  color: var(--auditerra-green) !important;
+  font-weight: 700;
+  border-bottom: none !important;
+  margin-top: 1.2em;
+  padding-bottom: 0;
+}
+
+.vp-doc h2 {
+  color: var(--auditerra-brown) !important;
+  font-weight: 650;
+  border-bottom: 1px solid var(--auditerra-border) !important;
+  padding-bottom: 0.35em;
+  margin-top: 2em;
+}
+
+.vp-doc h3 {
+  color: var(--auditerra-brown) !important;
+  font-weight: 600;
+  margin-top: 1.7em;
+}
+
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+  color: var(--auditerra-brown) !important;
+  font-weight: 600;
 }
 
 .vp-doc table {
-  width: 100%;
-  display: table;
-  margin: 1.5rem 0;
+  width: 100% !important;
+  display: table !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 1px solid var(--auditerra-border) !important;
+  border-radius: var(--auditerra-radius) !important;
+  overflow: hidden;
+  margin: 1.5em 0;
+  background: var(--auditerra-table-row);
 }
 
-.vp-doc th,
-.vp-doc td {
-  padding: 12px 16px;
+.vp-doc table th {
+  background: var(--auditerra-table-header) !important;
+  color: var(--auditerra-text-1) !important;
+  font-weight: 600;
+  text-align: left;
+  padding: 14px 20px !important;
+  border: none !important;
+  border-bottom: 1px solid var(--auditerra-border) !important;
+}
+
+.vp-doc table td {
+  color: var(--auditerra-text-1) !important;
+  padding: 14px 20px !important;
+  border: none !important;
+  border-bottom: 1px solid var(--auditerra-border) !important;
+  vertical-align: top;
+}
+
+.vp-doc table tr:last-child td {
+  border-bottom: none !important;
+}
+
+.vp-doc table tr:nth-child(even) td {
+  background: transparent !important;
+}
+
+.vp-doc table tr:hover td {
+  background: var(--auditerra-green-soft) !important;
+}
+
+.vp-doc table code {
+  color: var(--auditerra-code-highlight-text) !important;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.vp-doc div[class*="language-"] {
+  background: var(--auditerra-code-bg) !important;
+  border-radius: var(--auditerra-radius);
+  margin: 1.2em 0;
+  border: 1px solid var(--auditerra-border);
+}
+
+.vp-doc div[class*="language-"] code {
+  color: var(--auditerra-text-1) !important;
+}
+
+.vp-doc :not(pre) > code {
+  color: var(--auditerra-code-highlight-text) !important;
+  background: var(--auditerra-code-highlight-bg) !important;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-weight: 600;
+}
+
+.vp-doc a {
+  color: var(--auditerra-green) !important;
+}
+
+.vp-doc a:hover {
+  text-decoration: underline;
+}
+
+.vp-doc blockquote {
+  border-left: 3px solid var(--auditerra-green) !important;
+  color: var(--auditerra-text-2) !important;
+}
+
+.vp-doc .qa-section {
+  margin-top: 2em;
+  padding: 1em 1.2em;
+  border-left: 3px solid var(--auditerra-green);
+  background: var(--auditerra-green-soft);
+  border-radius: 0 var(--auditerra-radius) var(--auditerra-radius) 0;
+}
+
+.VPNavBar .logo img {
+  image-rendering: -webkit-optimize-contrast;
+  width: 108px;
+  height: 148px;
+  object-fit: contain;
+}
+
+.VPHomeHero .actions {
+  display: flex;
+  gap: 20px !important;
+  justify-content: center;
+}
+
+.VPHomeHero .actions .VPButton {
+  min-width: 200px !important;
+  padding: 14px 48px !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.VPHomeHero .name {
+  color: #4c8a42 !important;
+  font-weight: 700 !important;
+}
+
+.VPHomeHero .tagline {
+  color: #5b3d26 !important;
+}
+
+.VPFeature .box {
+  padding: 28px !important;
+  min-height: 180px !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--auditerra-border) !important;
+  background: white !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  transition: box-shadow 0.3s ease !important;
+}
+
+.VPFeature .box:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.VPFeature .icon {
+  background-color: var(--auditerra-green-soft) !important;
+  color: var(--auditerra-green) !important;
+  border-radius: 50% !important;
+  width: 48px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 16px !important;
+}
+
+.VPFeature .title {
+  font-weight: 600 !important;
+  color: var(--auditerra-text-1) !important;
+  font-size: 18px !important;
+}
+
+.VPFeature .details {
+  color: var(--auditerra-text-2) !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+}
+
+.VPButton.brand {
+  background-color: #4c8a42 !important;
+  border-color: #4c8a42 !important;
+  color: white !important;
+}
+
+.VPButton.brand:hover {
+  background-color: #3a7a33 !important;
+  border-color: #3a7a33 !important;
+}
+
+.VPButton.alt {
+  border-color: #5b3d26 !important;
+  color: #5b3d26 !important;
+  background: transparent !important;
+}
+
+.VPButton.alt:hover {
+  background-color: #5b3d26 !important;
+  color: white !important;
+}
+
+@media (max-width: 640px) {
+  .VPHomeHero .actions {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .VPHomeHero .actions .VPButton {
+    min-width: 180px !important;
+    padding: 12px 32px !important;
+    font-size: 16px !important;
+    width: 100% !important;
+    max-width: 280px !important;
+  }
 }

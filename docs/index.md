@@ -1,29 +1,48 @@
-# Auditerra Technical Documentation
-
-Welcome to the official technical documentation for the Auditerra platform.
-
-This documentation serves as the central repository for all technical knowledge regarding the design, implementation, deployment, and maintenance of the Auditerra system. Whether you are a new developer setting up your local environment, an architect reviewing the system design, or a QA engineer validating new features, you will find the specific guides and references you need here.
-
-## Audience
-
-This documentation is designed for:
-
-- **Developers** integrating with or extending the Auditerra system.
-- **DevOps and IT teams** managing production infrastructure.
-- **Project Stakeholders** involved in technical review and system oversight.
-
-## Quick Navigation
-
-Start your journey by selecting the relevant section below:
-
-- [Getting Started](/guide/getting-started) : Set up your development environment
-- [Developer Guides](/dev_guide/overview) : Are you a developer? Look at our guide designed to make your work easier.
-
-- [Architecture](/architecture/arch) : Understand the system design
-
-- [Backend API](/api/introduction) : Explore the endpoints
-- [Security](/security/overview) : See what we have implemented for security.
-- [AI ](/ai/overview) : Understand how AI is used at Auditerra
-- [Deployment](/deployment/overview) : Understand how to deploy a project like Auditerra
-
 ---
+layout: home
+
+hero:
+  name: "Auditerra"
+  text: "Technical Documentation"
+  tagline: "Soil Diagnostics and Restoration Platform"
+  actions:
+    - theme: brand
+      text: Get Started
+      link: /overview
+    - theme: alt
+      text: View on GitHub
+      link: https://github.com/akirachix/Scisync_Technical_Documentation
+
+features:
+  - title: Low-Connectivity First
+    details: Farmers use USSD. Experts use offline-first PWA. Syncs when signal returns.
+  - title: Verifiable Impact
+    details: 60-day audit loop. Immutable field data. Proof for global climate funders.
+  - title: Verified by Agronomists
+    details: Multi-factor expert matching. Language compatibility. Local community trust.
+  - title: Scalable Architecture
+    details: FastAPI with PostgreSQL and PostGIS. AI-powered diagnostics. Heroku and Vercel.
+---
+
+## Documentation Sections
+
+| Section                                      | Description                       |
+| -------------------------------------------- | --------------------------------- |
+| [Overview](/overview)                        | Product overview and key features |
+| [Architecture](/architecture/overview)       | System design and components      |
+| [Backend](/api/overview)                     | Backend API documentation         |
+| [Frontend Web](/Frontend-Web/overview)       | React and Next.js application     |
+| [Frontend Mobile](/frontend-mobile/overview) | PWA and offline-first             |
+| [Security](/security/overview)               | Authentication and authorization  |
+| [AI Module](/ai/overview)                    | Gemini integration and RAG        |
+| [Deployment](/deployment/overview)           | Heroku and Vercel setup           |
+| [Developer Guide](/dev_guide/overview)       | Contributing and code standards   |
+
+## Quick Links
+
+| Link                                   | Description           |
+| -------------------------------------- | --------------------- |
+| [Overview](/overview)                  | What the product does |
+| [Architecture](/architecture/overview) | System design         |
+| [Backend](/api/overview)               | API reference         |
+| [Deployment](/deployment/overview)     | Production setup      |
